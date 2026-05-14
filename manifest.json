@@ -1,0 +1,9 @@
+{
+  "id": "claudian-search",
+  "name": "Claudian Search",
+  "version": "0.1.0",
+  "minAppVersion": "1.4.5",
+  "description": "Search and jump within the current Claudian conversation across supported providers.",
+  "author": "ShawnLee",
+  "isDesktopOnly": true
+}

@@ -1,0 +1,204 @@
+.claudian-header {
+  container-type: inline-size;
+  position: relative;
+}
+
+.claudian-search-overlay {
+  align-self: center;
+  flex: 0 0 auto;
+  margin-inline-start: 8px;
+  position: relative;
+  z-index: 30;
+  font-size: 13px;
+}
+
+.claudian-search-overlay__button,
+.claudian-search-overlay__refresh {
+  align-items: center;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  padding: 0;
+  width: 30px;
+}
+
+.claudian-search-overlay__button:hover,
+.claudian-search-overlay__refresh:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.claudian-search-overlay__popover {
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
+  display: none;
+  max-height: min(58vh, 560px);
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 36px;
+  width: min(380px, calc(100vw - 56px));
+}
+
+@container (max-width: 420px) {
+  .claudian-search-overlay {
+    margin-inline-start: 6px;
+  }
+
+  .claudian-search-overlay__popover {
+    right: 0;
+    width: calc(100cqw - 16px);
+  }
+}
+
+.claudian-search-overlay.is-open .claudian-search-overlay__popover {
+  display: flex;
+  flex-direction: column;
+}
+
+.claudian-search-overlay__input-row {
+  border-bottom: 1px solid var(--background-modifier-border);
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+}
+
+.claudian-search-overlay__input {
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  color: var(--text-normal);
+  flex: 1;
+  height: 32px;
+  min-width: 0;
+  padding: 0 10px;
+}
+
+.claudian-search-overlay__status {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 8px 12px;
+}
+
+.claudian-search-overlay__results {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 10px 14px;
+}
+
+.claudian-search-overlay__result {
+  appearance: none;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 7px;
+  box-sizing: border-box;
+  color: var(--text-normal);
+  cursor: pointer;
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-direction: column;
+  height: 112px !important;
+  line-height: normal !important;
+  min-height: 112px !important;
+  overflow: hidden !important;
+  padding: 8px 10px;
+  text-align: left;
+  white-space: normal !important;
+  width: 100%;
+}
+
+.claudian-search-overlay__result:hover,
+.claudian-search-overlay__result:focus-visible,
+.claudian-search-overlay__result.is-loading {
+  background: var(--background-modifier-hover);
+}
+
+.claudian-search-overlay__result:focus-visible {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 2px;
+}
+
+.claudian-search-overlay__result-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claudian-search-overlay__source {
+  color: var(--text-faint);
+  display: block;
+  font-size: 11px;
+  line-height: 1.35;
+  margin: 0 0 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claudian-search-overlay__excerpt {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  color: var(--text-muted);
+  display: -webkit-box;
+  flex: 1 1 auto;
+  font-size: 12px;
+  line-height: 1.45;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.claudian-search-overlay__excerpt mark {
+  background: var(--text-highlight-bg);
+  border-radius: 3px;
+  color: var(--text-normal);
+  padding: 0 2px;
+}
+
+.claudian-search-overlay__meta {
+  color: var(--text-faint);
+  display: none;
+  font-size: 11px;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+
+.claudian-message.claudian-search-overlay__target {
+  animation: claudian-search-overlay-pulse 1.2s ease-in-out 0s 3;
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 4px;
+}
+
+.claudian-search-overlay__toast {
+  background: var(--background-modifier-message);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  color: var(--text-on-accent);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  padding: 10px 14px;
+  pointer-events: none;
+  position: fixed;
+  text-align: center;
+  z-index: 1000;
+}
+
+@keyframes claudian-search-overlay-pulse {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: var(--background-modifier-hover); }
+}
