@@ -5,3 +5,6 @@
 *.log
 *.tmp
 .DS_Store
+
+# Release build output
+/dist/
