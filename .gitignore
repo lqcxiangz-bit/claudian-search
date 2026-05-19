@@ -1,0 +1,7 @@
+# Local Obsidian plugin runtime state
+/data.json
+
+# Logs and temporary diagnostics
+*.log
+*.tmp
+.DS_Store

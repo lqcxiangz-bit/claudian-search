@@ -1,9 +1,9 @@
 {
-  "id": "claudian-search",
-  "name": "Claudian Search",
+  "id": "claudian-search-overlay",
+  "name": "Claudian Workspace Overlay",
   "version": "0.1.0",
   "minAppVersion": "1.4.5",
-  "description": "Search and jump within the current Claudian conversation across supported providers.",
-  "author": "ShawnLee",
+  "description": "Adds scoped global/per-note Claudian workspaces, conversation search, tab-pool reuse, and diagnostics without patching Claudian core.",
+  "author": "lqcxiangz-bit",
   "isDesktopOnly": true
 }
