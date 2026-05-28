@@ -3,7 +3,7 @@
   "name": "Claudian Workspace Overlay",
   "version": "0.2.0",
   "minAppVersion": "1.4.5",
-  "description": "Adds scoped global/per-note Claudian workspaces, conversation search, tab-pool reuse, and diagnostics without patching Claudian core.",
+  "description": "External Claudian overlay for current-session search and article-level context restoration. / Claudian 外挂层：支持当前 session 搜索与文章级上下文自动恢复。",
   "author": "lqcxiangz-bit",
   "isDesktopOnly": true
 }
