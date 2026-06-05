@@ -3,7 +3,8 @@ const fs = require("fs");
 const path = require("path");
 
 const VIEW_TYPE_CLAUDIAN = "claudian-view";
-const PLUGIN_ID_CLAUDIAN = "claudian";
+const PLUGIN_ID_CLAUDIAN = "realclaudian";
+const LEGACY_PLUGIN_ID_CLAUDIAN = "claudian";
 const SESSIONS_DIR = ".claudian/sessions";
 const MAX_RESULTS = 40;
 const HIGHLIGHT_CLASS = "claudian-search-overlay__target";
@@ -641,7 +642,13 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
   }
 
   getClaudianPlugin() {
-    return this.app.plugins.plugins[PLUGIN_ID_CLAUDIAN] || null;
+    return this.app.plugins.plugins[PLUGIN_ID_CLAUDIAN] || this.app.plugins.plugins[LEGACY_PLUGIN_ID_CLAUDIAN] || null;
+  }
+
+  getClaudianPluginId() {
+    if (this.app.plugins.plugins[PLUGIN_ID_CLAUDIAN]) return PLUGIN_ID_CLAUDIAN;
+    if (this.app.plugins.plugins[LEGACY_PLUGIN_ID_CLAUDIAN]) return LEGACY_PLUGIN_ID_CLAUDIAN;
+    return PLUGIN_ID_CLAUDIAN;
   }
 
   async ensureClaudianMaxTabs() {
@@ -1822,7 +1829,7 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
   getActiveConversation(view) {
     const tab = this.getActiveTab(view);
     const conversationId = tab && tab.conversationId;
-    const claudianPlugin = this.app.plugins.plugins[PLUGIN_ID_CLAUDIAN];
+    const claudianPlugin = this.getClaudianPlugin();
     const conversation = claudianPlugin
       && conversationId
       && typeof claudianPlugin.getConversationSync === "function"
@@ -2116,7 +2123,7 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
   async ensureClaudianView() {
     let leaf = this.app.workspace.getLeavesOfType(VIEW_TYPE_CLAUDIAN)[0];
     if (!leaf) {
-      await this.app.commands.executeCommandById(`${PLUGIN_ID_CLAUDIAN}:open-view`);
+      await this.app.commands.executeCommandById(`${this.getClaudianPluginId()}:open-view`);
       await new Promise((resolve) => window.setTimeout(resolve, 300));
       leaf = this.app.workspace.getLeavesOfType(VIEW_TYPE_CLAUDIAN)[0];
     }
@@ -2138,7 +2145,7 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
       return view;
     }
 
-    const claudianPlugin = this.app.plugins.plugins[PLUGIN_ID_CLAUDIAN];
+    const claudianPlugin = this.getClaudianPlugin();
     const claudianView = claudianPlugin && typeof claudianPlugin.getView === "function" ? claudianPlugin.getView() : null;
     if (claudianView && claudianView.tabManager && typeof claudianView.tabManager.openConversation === "function") {
       await claudianView.tabManager.openConversation(conversationId);

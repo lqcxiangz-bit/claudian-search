@@ -1,7 +1,7 @@
 {
   "id": "claudian-search-overlay",
   "name": "Claudian Workspace Overlay",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "minAppVersion": "1.4.5",
   "description": "External Claudian overlay for current-session search and article-level context restoration. / Claudian 外挂层：支持当前 session 搜索与文章级上下文自动恢复。",
   "author": "lqcxiangz-bit",

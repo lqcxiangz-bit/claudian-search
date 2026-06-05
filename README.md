@@ -85,6 +85,14 @@ The plugin includes maintenance commands for inspecting and cleaning workspace s
 - **Restore what existed**: if a note had one, two, or three conversations, restore that same workspace shape.
 - **Performance-aware**: reuse physical tabs and provide manual compaction tools.
 
+
+## Release notes
+
+### 0.2.1
+
+- Fix compatibility with newer Claudian builds whose plugin id is `realclaudian` while retaining fallback support for the legacy `claudian` id.
+- Route overlay view opening, conversation lookup, and history restoration through a single core-plugin resolver to avoid scoped tab/conversation mismatches after Claudian updates.
+
 ## Installation
 
 This is an Obsidian desktop plugin intended to be installed manually during development or personal use.
@@ -264,6 +272,14 @@ Claudian 实际只需要维持一个较小的物理标签页池。Overlay 会把
 
 4. 重启 Obsidian，或重新加载插件。
 5. 在 Obsidian 的第三方插件设置中启用 **Claudian Workspace Overlay**。
+
+
+## 版本说明
+
+### 0.2.1
+
+- 修复新版 Claudian 核心插件 id 为 `realclaudian` 时，overlay 仍查找旧 `claudian` id 导致的窗口 / 会话绑定错位。
+- 将打开 Claudian view、读取当前 conversation、恢复历史会话等路径统一到核心插件解析器，并保留旧 id fallback。
 
 ## 使用方式
 
