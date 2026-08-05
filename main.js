@@ -155,7 +155,11 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
     if (this.maxTabsTimer) window.clearInterval(this.maxTabsTimer);
     if (this.styleEl) this.styleEl.remove();
     if (this.toastEl) this.toastEl.remove();
-    for (const panel of this.activePanels.values()) panel.root.remove();
+    for (const panel of this.activePanels.values()) {
+      panel.root.remove();
+      if (panel.toolbar) panel.toolbar.remove();
+      if (panel.toolbarBg) panel.toolbarBg.remove();
+    }
     this.activePanels.clear();
     for (const actionEl of this.noteActionEls) actionEl.remove();
     this.noteActionEls.clear();
@@ -191,10 +195,29 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
       .claudian-search-overlay {
         align-self: center !important;
         flex: 0 0 auto !important;
-        margin-inline-start: 8px !important;
+        margin-inline-start: 0 !important;
         position: relative !important;
         top: auto !important;
         right: auto !important;
+      }
+      .claudian-search-overlay__popover {
+        position: absolute !important;
+        right: 0 !important;
+        top: 36px !important;
+        z-index: 1000 !important;
+      }
+      .claudian-search-overlay__toolbar {
+        align-items: center !important;
+        display: flex !important;
+        gap: 8px !important;
+        position: absolute !important;
+        right: 16px !important;
+        top: 12px !important;
+        z-index: 40 !important;
+      }
+      .claudian-search-overlay__host {
+        container-type: inline-size !important;
+        position: relative !important;
       }
       .claudian-search-overlay__result {
         display: flex !important;
@@ -231,8 +254,9 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
         display: none !important;
         flex: 0 0 auto !important;
         gap: 6px !important;
-        margin-inline-start: 8px !important;
+        margin-inline-start: 0 !important;
         max-width: min(360px, 38vw) !important;
+        position: static !important;
       }
       .claudian-note-entry-control.is-visible {
         display: flex !important;
@@ -287,12 +311,22 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
     for (const leaf of leaves) this.injectIntoView(leaf.view);
   }
 
+  findOverlayHost(view, claudianRoot) {
+    if (!view || !view.containerEl || !claudianRoot) return null;
+    return (
+      view.containerEl.querySelector(".claudian-header") ||
+      view.containerEl.querySelector(".claudian-tab-bar-container") ||
+      view.containerEl.querySelector(".claudian-tab-badges")?.parentElement ||
+      claudianRoot
+    );
+  }
+
   injectIntoView(view) {
     if (!view || !view.containerEl) return;
     if (this.activePanels.has(view)) return;
 
     const claudianRoot = view.containerEl.querySelector(".claudian-container");
-    const header = view.containerEl.querySelector(".claudian-header");
+    const header = this.findOverlayHost(view, claudianRoot);
     if (!claudianRoot || !header) return;
 
     this.patchTabManagerForSlotLimits(view);
@@ -338,10 +372,14 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
     root.append(button, popover);
 
     const noteControl = this.createNoteEntryControl(view);
-    header.appendChild(noteControl.root);
-    header.appendChild(root);
+    const toolbar = document.createElement("div");
+    toolbar.className = "claudian-search-overlay__toolbar";
+    header.classList.add("claudian-search-overlay__host");
+    claudianRoot.classList.add("claudian-search-overlay__host");
+    toolbar.append(noteControl.root, root);
+    claudianRoot.appendChild(toolbar);
 
-    const panel = { view, root, button, popover, input, refresh, status, results, scopeKey: "" };
+    const panel = { view, root, button, popover, input, refresh, status, results, toolbar, scopeKey: "" };
     this.activePanels.set(view, panel);
     this.noteControls.set(view, noteControl);
     this.renderNoteEntryControl(view);
@@ -1664,6 +1702,10 @@ module.exports = class ClaudianSearchOverlayPlugin extends Plugin {
     panel.input.focus();
     panel.input.select();
     this.renderSearch(panel);
+  }
+
+  positionPopover(panel) {
+    // Kept for compatibility with older injected panels; current layout is CSS-driven.
   }
 
   refreshPanelsForScopeChange() {

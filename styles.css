@@ -3,13 +3,27 @@
   position: relative;
 }
 
+.claudian-search-overlay__host {
+  container-type: inline-size;
+  position: relative;
+}
+
 .claudian-search-overlay {
   align-self: center;
   flex: 0 0 auto;
-  margin-inline-start: 8px;
+  margin-inline-start: 0;
   position: relative;
-  z-index: 30;
   font-size: 13px;
+}
+
+.claudian-search-overlay__toolbar {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  z-index: 40;
 }
 
 .claudian-search-overlay__button,
@@ -44,6 +58,7 @@
   position: absolute;
   right: 0;
   top: 36px;
+  z-index: 1000;
   width: min(380px, calc(100vw - 56px));
 }
 
